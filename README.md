@@ -34,7 +34,7 @@ The model checkpoints will be saved in /logs folder
 ## Sampling
 You can use the following commands to generate samples:
 ```
-bash sample.sh'
+bash sample.sh
 ```
 The generated mols will be saved in /samples folder
 ### Evaluation and visualization:
