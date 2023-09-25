@@ -1,0 +1,132 @@
+model:
+  type: diffusion # diffusion or conditioned_diffusion
+  network: TLPE
+  hidden_dim: 128
+  cutoff: 8
+  cutoff_inter: 2.8
+  mlp_act: relu
+  beta_schedule: sigmoid
+  beta_start: 1.e-7
+  beta_end: 2.e-3
+  num_diffusion_timesteps: 1000
+  edge_order: 3
+  edge_encoder: mlp
+  eq_transform_type: 'sum' # sum or mean
+  w_global: 1.0
+  condition_time: True
+  node_type_norm: 30
+  condition_prop: []
+
+  energy_model:
+    in_node_nf: 28
+    condition_time: True
+    hidden_nf: 128
+    condition_prop: ['prop_gap', 'prop_energy', 'atom_charges'] #['prop_gap', 'prop_energy', 'atom_charges'] # condition on guidance model
+    train_condition: 'atom_charges' # training guidance model label
+    guidance_prop: ['prop_gap', 'prop_energy', 'atom_charges'] # sampling guidance conditions
+    n_layers: 7
+    tanh: True
+    attention: True
+    mode: 'egnn_dynamics'
+    norm_constant: 1
+    max_num_atoms: 177
+    diffusion_steps: 999
+    diffusion_noise_schedule: sigmoid
+    diffusion_noise_precision: 1.e-4
+    normalize_factors: 1
+    include_charges: False
+    normalization_factor: [1,30,1]
+    norm_biases: 0
+    inv_sublayers: 1
+    sin_embedding: False
+    aggregation_method: 'sum'
+    l1: 1 # scalar of guidance
+    l2: 1 # scalar of guidance
+    l3: 1
+    norm_gap: [0.3744860224143858, 0.08328175816147786]
+    norm_energy: [-1869.4425580175387, 1201.2420209158208]
+    norm_charge: [-0.05879689, 0.20178159]
+
+  encoder:
+    type: 'surfbind'
+    ligand_net: 
+      type: 'dual' # gcn or dual
+      in_channels: 28
+      edge_features: 6
+      num_convs: 6
+      num_convs_local: 4
+      smooth_conv: false
+      res_layers: 10
+      hidden_dim: 128
+      dropout_rate: 0.1
+      num_attention_heads: 4
+      num_layers: 4
+      nodes_per_target: 80 # 0 means not do node sampling
+    use_complex: true
+    complex_net:
+      in_channels: 128
+      res_layers: 10
+      hidden_dim: 128
+      dropout_rate: 0.1
+      update_node_attr: true
+    dmasif:
+      curvature_scales: [1.0, 2.0, 3.0, 5.0, 10.0]
+      resolution: 1.0
+      distance: 1.05
+      variance: 0.1
+      sup_sampling: 20
+      atom_dims: 32
+      emb_dims: 128
+      in_channels: 42
+      orientation_units: 42
+      n_layers: 1
+      radius: 9.0
+      dropout: 0.0
+      residue: false
+    assembel_net_local: 'ltmp' 
+    assembel_net_global: 'cat'
+    ltmp:
+      in_dim: 128
+      target_dim: 128
+      ligand_dim: 128
+      hidden_dim: 128
+      depth: 2
+      heads: 4
+      dim_head: 64
+      attn_dropout: 0.
+      ff_dropout: 0.
+      global_column_attn: False
+      out_dim: 128
+      use_dist_embed: false
+      local:
+        use_undirect: false 
+        use_direct: true
+      complex:
+        use_undirect: true 
+        use_direct: false
+
+train:
+  seed: 2021
+  batch_size: 5
+  log_freq: 10
+  save_freq: 1
+  val_freq: 10
+  epochs: 80
+  change_loss_weight_epoch: 30
+  max_grad_norm: 5000.0
+  anneal_power: 2.0
+  optimizer:
+    type: adam
+    lr: 1.e-3
+    weight_decay: 0.
+    beta1: 0.95
+    beta2: 0.999
+  scheduler:
+    type: plateau
+    factor: 0.6
+    patience: 10
+
+dataset:
+  train: datasets/equibind_data_pocket_add_std_norm_prop/train_with_charges.pt
+  val: datasets/equibind_data_pocket_add_std_norm_prop/val_with_charges.pt
+  test: datasets/equibind_data_pocket_add_std_norm_prop/test_with_charges.pt

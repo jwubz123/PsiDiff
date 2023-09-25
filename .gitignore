@@ -128,16 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# folders
-datasets/
-logs/
-samples/
-temp/
-wandb*
-energy_model_ckpt/
-models/energy/
-utils/tmp/
-configs/
 # debug
 *debug*
 ipynb
