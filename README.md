@@ -11,11 +11,11 @@ conda env create -f environment.yml
 
 ## Dataset
 The original PDBBind-2020 dataset can be derived at http://www.pdbbind.org.cn/index.php?action=showall
-We provide our processed version of training, validation, and testing dataset at:
+We provide our processed version of training, validation, and testing dataset at: [GoogleDrive Folders](https://drive.google.com/drive/folders/1OUWeo7H6BDmz9YpKyYenWW4-HjYcEO6I?usp=sharing). 
 After downloding the dataset, it should be put into the folder path as specified in the datasets/
 
 ## Checkpoints
-The trained checkpoints for both score function and energy function are saved in: 
+The trained checkpoints for both score function and energy function are saved in: [GoogleDrive Folders](https://drive.google.com/drive/folders/11IzlUOXW8jqY7yYF6i-5Sr8W2B27Rb7g?usp=sharing)
 s_theta.pt for score function, gap.pt, energy.pt and charge.pt
 After downloding the checkpoints, it should be put into the folder path as specified in the logs/
 
