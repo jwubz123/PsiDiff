@@ -140,11 +140,8 @@ utils/tmp/
 configs/
 # debug
 *debug*
-check_data.py
-*.sh
 ipynb
 *temp*
 *.out
 *timer.dat
 *.clean
-*.png
