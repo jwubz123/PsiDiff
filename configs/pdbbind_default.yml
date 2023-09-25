@@ -127,6 +127,6 @@ train:
     patience: 10
 
 dataset:
-  train: datasets/equibind_data_pocket_add_std_norm_prop/train_with_charges.pt
-  val: datasets/equibind_data_pocket_add_std_norm_prop/val_with_charges.pt
-  test: datasets/equibind_data_pocket_add_std_norm_prop/test_with_charges.pt
+  train: datasets/equibind_data_pocket_add_std_norm_prop/train.pt
+  val: datasets/equibind_data_pocket_add_std_norm_prop/val.pt
+  test: datasets/equibind_data_pocket_add_std_norm_prop/test.pt
